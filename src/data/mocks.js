@@ -9,8 +9,10 @@ const mocks = {
 	Int: () => 7,
 	String: () => 'Default Message',
 
-	Tomte: () => ({
-		name: casual.first_name,
+	ProductTeam: () => ({
+		id: casual.integer(0, 200),
+		product_name: casual.title,
+		product_description: casual._short_description,
 	}),
 
 	// Also customize your types and their fields too!
@@ -31,7 +33,7 @@ const mocks = {
 		// By default only two mocks are generated, here we use
 		// graphql-tools MockList object to vary between 1 and 7 posts
 		posts: () => new MockList([1, 7]),
-		tomte: () => new MockList([1, 7]),
+		ProductTeams: () => new MockList([5, 10]),
 	}),
 }
 module.exports = {

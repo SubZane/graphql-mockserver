@@ -1,12 +1,15 @@
 const typeDefs = `
+	type ProductTeam {
+		id: Int!
+		product_name: String
+		product_description: String
+		create_date: String
+	}
+
   type Author {
     id: Int!
     name: String
     posts: [Post]
-  }
-
-  type Tomte {
-    name: String
   }
 
   type Post {
@@ -20,8 +23,8 @@ const typeDefs = `
   # The schema allows query posts and author:
   type Query {
     author(id: Int!): Author
-    posts: [Post]
-    tomte: [Tomte]
+		posts: [Post]
+		ProductTeams: [ProductTeam]
   }
 `
 module.exports = {
