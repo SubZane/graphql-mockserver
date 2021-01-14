@@ -17,6 +17,32 @@ app.use(
 	})
 )
 
+/**
+ query posts {
+  posts {
+    title
+    views
+  }
+}
+query author {
+  author(id: 1) {
+    name
+    posts {
+      title
+      content
+      views
+    }
+  }
+}
+
+query tomte {
+  tomte {
+    name
+  }
+}
+ *
+ */
+
 app.listen(4000, () => {
 	console.info('Listening on http://localhost:4000')
 })
