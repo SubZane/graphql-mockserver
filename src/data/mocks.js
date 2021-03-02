@@ -21,6 +21,9 @@ const mocks = {
 		vcpu_entitled: casual.integer(0, 10),
 		memgb_entitled: casual.integer(8, 128),
 		diskgb_entitled: casual.integer(10, 200),
+		vcpu_used: casual.integer(10, 200),
+		memgb_used: casual.integer(10, 200),
+		diskgb_used: casual.integer(10, 200),
 	}),
 
 	ProductTeam: () => ({
@@ -43,6 +46,7 @@ const mocks = {
 		url_slug: casual.url_slug,
 		instance_name: casual.title,
 		status: oneOf(['UP', 'DOWN', 'UNKNOWN', 'CREATING', 'DELETING']),
+		is_clone: oneOf([true, false]),
 	}),
 
 	User: () => ({
@@ -61,6 +65,7 @@ const mocks = {
 		ProductTeams: () => new MockList([5, 10]),
 		Operations: () => new MockList([5, 10]),
 		Users: () => new MockList([5, 10]),
+		Instances: () => new MockList([15, 25]),
 	}),
 }
 module.exports = {

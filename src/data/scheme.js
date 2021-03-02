@@ -6,6 +6,9 @@ scalar DateTime
     vcpu_entitled: Int
     memgb_entitled: Int
     diskgb_entitled: Int
+    vcpu_used: Int
+    memgb_used: Int
+		diskgb_used: Int
 	}
 
 	type DBEng {
@@ -18,6 +21,7 @@ scalar DateTime
 		url_slug: String
 		instance_name: String
 		status: String
+		is_clone: Boolean
 		product_team: ProductTeam
 		environment: Environment
 		softwareprofile: SoftwareProfile
@@ -95,10 +99,11 @@ scalar DateTime
 
   # The schema allows query posts and author:
   type Query {
-		Instances: [Instance]
+		Instances(productteam_id: Int!): [Instance]
 		Operations: [Operation]
 		ProductTeams: [ProductTeam]
 		Users: [User]
+		Quota(productteam_id: Int!): Quota
 		User(id: Int!): User
 		Instance(id: Int!): Instance
 		Operation(id: Int!): Operation
