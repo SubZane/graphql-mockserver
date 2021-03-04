@@ -8,10 +8,19 @@ const { typeDefs } = require('./data/scheme')
 const { mocks } = require('./data/mocks')
 
 const schema = makeExecutableSchema({ typeDefs, mocks })
-const schemawithmocks = addMocksToSchema({ schema, mocks })
+const schemawithmocks = addMocksToSchema({
+	schema,
+	mocks,
+	resolvers: () => ({
+		Mutation: {
+			removeInstance: (_, { id }) => {
+				return id
+			},
+		},
+	}),
+})
 
 const app = express()
-
 var allowedOrigins = ['http://localhost:3000', 'http://localhost:4000']
 
 app.use(
