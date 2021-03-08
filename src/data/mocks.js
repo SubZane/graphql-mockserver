@@ -57,6 +57,11 @@ const mocks = {
 		username: casual.username,
 	}),
 
+	AddUserResult: () => ({
+		productteam_relation_id: 123,
+		success: true,
+	}),
+
 	Query: () => ({
 		// By default only two mocks are generated, here we use
 		// graphql-tools MockList object to vary between 1 and 7 posts

@@ -16,6 +16,9 @@ const schemawithmocks = addMocksToSchema({
 			removeInstance: (_, { id }) => {
 				return id
 			},
+			addUserToProductTeam: (_, { productteam_id, user_id, role_id }) => {
+				return productteam_id
+			},
 		},
 	}),
 })

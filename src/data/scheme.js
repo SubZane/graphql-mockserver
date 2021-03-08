@@ -75,6 +75,7 @@ scalar DateTime
 		entity_name: String!
 		entity_type: String!
 		status: String!
+		log: String!
 	}
 
 	type Contact {
@@ -94,11 +95,12 @@ scalar DateTime
 		last_name: String!
 		email: String!
 		username: String!
+		product_teams: [UserProductTeams]!
 	}
 
-	type UsersInProductTeam {
-		relation_id: Int!
-		user: User!
+	type UserProductTeams {
+		product_team: ProductTeam!
+		productteam_relation_id: Int!
 		role: Role!
 	}
 
@@ -107,8 +109,14 @@ scalar DateTime
 		name: String!
 	}
 
+  type AddUserResult {
+    success: Boolean!
+  	productteam_relation_id: Int!
+  }
+
 	type Mutation {
  		removeInstance(id: Int!): Int!
+ 	  addUserToProductTeam(productteam_id: Int!, user_id: Int!,role_id: Int!) :AddUserResult!
 	}
 
   # The schema allows query posts and author:
@@ -118,9 +126,8 @@ scalar DateTime
 		ProductTeams: [ProductTeam!]!
 		Quota(productteam_id: Int!): Quota
 		User(id: Int!): User!
-		Users: [User!]!
+		Users(productteam_id: Int, exclude_productteam_id: Int): [User!]!
 		Roles: [Role!]!
-		UsersInProductTeam(productteam_id: Int!): [UsersInProductTeam!]!
 		Instance(id: Int!): Instance!
 		Operation(id: Int!): Operation!
 		ProductTeam(id: Int!): ProductTeam!
