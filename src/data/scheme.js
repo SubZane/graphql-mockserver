@@ -25,6 +25,31 @@ scalar DateTime
 		product_team: ProductTeam!
 		environment: Environment!
 		softwareprofile: SoftwareProfile!
+		credentials: Credentials!
+		databases: [Database!]!
+		hosts: [Host!]!
+	}
+
+	type Database {
+		name: String!
+	}
+
+	type Host {
+		id: String!
+		hostname: String!
+		ipv4: String!
+		role: String!
+		vcpu: String!
+		memgb: String!
+		diskgb: String!
+	}
+
+	type Credentials {
+		instance: String!
+		username: String!
+		db_port: Int!
+		db_host: String!
+		conn_string: String!
 	}
 
 	type Environment {
@@ -42,6 +67,8 @@ scalar DateTime
 		type: String!
 		latest_version: String!
 		latest_versionId: String!
+		db_version: String!
+		db_engine: String!
 		properties: [SoftwareProfileProperties]!
 	}
 
