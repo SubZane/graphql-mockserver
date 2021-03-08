@@ -19,6 +19,12 @@ const schemawithmocks = addMocksToSchema({
 			addUserToProductTeam: (_, { productteam_id, user_id, role_id }) => {
 				return productteam_id
 			},
+			updateUser: (
+				_,
+				{ productteam_relation_id, productteam_id, user_id, role_id }
+			) => {
+				return true
+			},
 		},
 	}),
 })

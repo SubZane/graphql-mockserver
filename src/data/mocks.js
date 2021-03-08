@@ -57,8 +57,17 @@ const mocks = {
 		username: casual.username,
 	}),
 
+	Role: () => ({
+		id: casual.integer(0, 200),
+		name: oneOf(['Developer', 'Manager', 'Admin', 'Member', 'God']),
+	}),
+
 	AddUserResult: () => ({
 		productteam_relation_id: 123,
+		success: true,
+	}),
+
+	UpdateUserResult: () => ({
 		success: true,
 	}),
 
@@ -70,6 +79,7 @@ const mocks = {
 		ProductTeams: () => new MockList([5, 10]),
 		Operations: () => new MockList([5, 10]),
 		Users: () => new MockList([5, 10]),
+		Roles: () => new MockList([5, 5]),
 		Instances: () => new MockList([15, 25]),
 	}),
 }

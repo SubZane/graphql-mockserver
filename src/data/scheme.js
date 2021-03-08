@@ -114,9 +114,14 @@ scalar DateTime
   	productteam_relation_id: Int!
   }
 
+	  type UpdateUserResult {
+    success: Boolean!
+  }
+
 	type Mutation {
  		removeInstance(id: Int!): Int!
  	  addUserToProductTeam(productteam_id: Int!, user_id: Int!,role_id: Int!) :AddUserResult!
+		updateUser(productteam_relation_id: Int!, productteam_id: Int!, user_id: Int!,role_id: Int!):UpdateUserResult!
 	}
 
   # The schema allows query posts and author:
@@ -125,7 +130,7 @@ scalar DateTime
 		Operations(productteam_id: Int): [Operation!]!
 		ProductTeams: [ProductTeam!]!
 		Quota(productteam_id: Int!): Quota
-		User(id: Int!): User!
+		User(productteam_id: Int, id: Int, productteam_relation_id: Int): User!
 		Users(productteam_id: Int, exclude_productteam_id: Int): [User!]!
 		Roles: [Role!]!
 		Instance(id: Int!): Instance!
