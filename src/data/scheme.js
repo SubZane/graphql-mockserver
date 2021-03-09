@@ -141,14 +141,36 @@ scalar DateTime
   	productteam_relation_id: Int!
   }
 
-	  type UpdateUserResult {
+  type UpdateUserResult {
     success: Boolean!
   }
 
+  type RemoveUserResult {
+    success: Boolean!
+  }
+
+  type CreateInstanceResult {
+    success: Boolean!
+		operation_id: Int!
+  }
+
+  type CloneInstanceResult {
+    success: Boolean!
+		operation_id: Int!
+  }
+
+	type DeleteInstanceResult {
+    success: Boolean!
+		operation_id: Int!
+  }
+
 	type Mutation {
- 		removeInstance(id: Int!): Int!
- 	  addUserToProductTeam(productteam_id: Int!, user_id: Int!,role_id: Int!) :AddUserResult!
+		removeInstance(id: Int!): DeleteInstanceResult!
+		addUserToProductTeam(productteam_id: Int!, user_id: Int!,role_id: Int!) :AddUserResult!
 		updateUser(productteam_relation_id: Int!, productteam_id: Int!, user_id: Int!,role_id: Int!):UpdateUserResult!
+		removeUserFromProductTeam(productteam_id: Int!, user_id: Int!):RemoveUserResult!
+		createInstance(productteam_id: Int!, db_engine: String!,	db_profile: Int!,	db_size: String!, db_env: Int!, database: String!, password: String!, monitored: Boolean!, backup_sla: Int!,	characterset: String!, ora_java: Boolean!, ora_custom: Boolean!,	ora_n_charset: String!,	ora_cdb_only: Boolean!,	ora_blocksize: Int!, ora_nls_length_sem: String!):CreateInstanceResult!
+		cloneInstance(instance_id: Int!, pit: String!, db_env: Int!):CloneInstanceResult!
 	}
 
   # The schema allows query posts and author:
@@ -163,6 +185,7 @@ scalar DateTime
 		Instance(id: Int!): Instance!
 		Operation(id: Int!): Operation!
 		ProductTeam(id: Int!): ProductTeam!
+		Environments: [Environment!]!
   }
 `
 module.exports = {

@@ -13,11 +13,20 @@ const schemawithmocks = addMocksToSchema({
 	mocks,
 	resolvers: () => ({
 		Mutation: {
+			cloneInstance: (_) => {
+				return true
+			},
+			createInstance: (_) => {
+				return true
+			},
 			removeInstance: (_, { id }) => {
 				return id
 			},
 			addUserToProductTeam: (_, { productteam_id, user_id, role_id }) => {
 				return productteam_id
+			},
+			removeUserFromProductTeam: (_, { user_id, productteam_id }) => {
+				return true
 			},
 			updateUser: (
 				_,

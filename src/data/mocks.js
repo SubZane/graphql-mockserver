@@ -67,6 +67,16 @@ const mocks = {
 		success: true,
 	}),
 
+	CreateInstanceResult: () => ({
+		operation_id: 123,
+		success: true,
+	}),
+
+	CloneInstanceResult: () => ({
+		operation_id: 123,
+		success: true,
+	}),
+
 	UpdateUserResult: () => ({
 		success: true,
 	}),
