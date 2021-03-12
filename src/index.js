@@ -11,31 +11,6 @@ const schema = makeExecutableSchema({ typeDefs, mocks })
 const schemawithmocks = addMocksToSchema({
 	schema,
 	mocks,
-	resolvers: () => ({
-		Mutation: {
-			cloneInstance: (_) => {
-				return true
-			},
-			createInstance: (_) => {
-				return true
-			},
-			removeInstance: (_, { id }) => {
-				return id
-			},
-			addUserToProductTeam: (_, { productteam_id, user_id, role_id }) => {
-				return productteam_id
-			},
-			removeUserFromProductTeam: (_, { user_id, productteam_id }) => {
-				return true
-			},
-			updateUser: (
-				_,
-				{ productteam_relation_id, productteam_id, user_id, role_id }
-			) => {
-				return true
-			},
-		},
-	}),
 })
 
 const app = express()

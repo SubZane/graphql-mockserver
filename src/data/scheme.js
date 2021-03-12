@@ -1,6 +1,28 @@
 const typeDefs = `
 scalar DateTime
 
+type ComputeSize {
+	size: Int!
+}
+
+	type OracleSettings {
+		oracle_nls_length_sematic: [OracleNLSLengthSematic!]!
+		oracle_charsets: [OracleCharsets!]!
+		oracle_blocksize: [OracleBlocksize!]!
+	}
+
+	type OracleNLSLengthSematic {
+		nls_length_sematic: String!
+	}
+
+	type OracleBlocksize {
+		blocksize: String!
+	}
+
+	type OracleCharsets {
+		charset: String!
+	}
+
 	type Quota {
 		productteam_id: Int!
     vcpu_entitled: Int
@@ -9,11 +31,6 @@ scalar DateTime
     vcpu_used: Int
     memgb_used: Int
 		diskgb_used: Int
-	}
-
-	type DBEng {
-		name: String!
-    display_name: String!
 	}
 
 	type Instance {
@@ -32,6 +49,12 @@ scalar DateTime
 
 	type Database {
 		name: String!
+	}
+
+	type DatabaseEngine {
+		id: Int!
+		display_name: String!
+		engine: String!
 	}
 
 	type Host {
@@ -69,13 +92,29 @@ scalar DateTime
 		latest_versionId: String!
 		db_version: String!
 		db_engine: String!
-		properties: [SoftwareProfileProperties]!
+		properties: [SoftwareProfileProperties!]!
 	}
 
 	type SoftwareProfileProperties {
 		name: String!
 		value: String!
-		secure: String!
+		secure: Boolean!
+	}
+
+	type Compute {
+		id: Int!
+		uuid: String!
+		name: String!
+		description: String!
+		type: String!
+		latestVersion: String!
+		properties: [ComputeProperties]!
+	}
+
+	type ComputeProperties {
+		name: String!
+		value: String!
+		secure: Boolean!
 	}
 
 	type ProductTeam {
@@ -122,7 +161,7 @@ scalar DateTime
 		last_name: String!
 		email: String!
 		username: String!
-		product_teams: [UserProductTeams]!
+		product_teams: [UserProductTeams!]!
 	}
 
 	type UserProductTeams {
@@ -175,6 +214,7 @@ scalar DateTime
 
   # The schema allows query posts and author:
   type Query {
+		OracleSettings: OracleSettings!
 		Instances(productteam_id: Int!): [Instance!]!
 		Operations(productteam_id: Int): [Operation!]!
 		ProductTeams: [ProductTeam!]!
@@ -186,6 +226,10 @@ scalar DateTime
 		Operation(id: Int!): Operation!
 		ProductTeam(id: Int!): ProductTeam!
 		Environments: [Environment!]!
+		SoftwareProfiles: [SoftwareProfile!]!
+		Computes: [Compute!]!
+		DatabaseEngines: [DatabaseEngine!]!
+		ComputeSizes: [ComputeSize!]!
   }
 `
 module.exports = {
