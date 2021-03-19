@@ -17,6 +17,14 @@ const mocks = {
 	String: () => 'Default Message',
 	DateTime: () => casual.date('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
 
+	SoftwareProfile: () => ({
+		name: casual.title,
+		description: casual.short_description,
+		db_version: casual.integer(0, 10),
+		latest_version: casual.integer(0, 10),
+		db_engine: oneOf(['MS SQL', 'Postgres', 'Oracle']),
+	}),
+
 	Quota: () => ({
 		productteam_id: casual.integer(0, 200),
 		vcpu_entitled: casual.integer(0, 10),
@@ -27,7 +35,13 @@ const mocks = {
 		diskgb_used: casual.integer(10, 200),
 	}),
 
+	UserRoles: () => ({
+		product_id: 3,
+		role: 'Product admin',
+	}),
+
 	ProductTeam: () => ({
+		id: casual.integer(0, 5),
 		product_name: casual.title,
 		product_description: casual._short_description,
 		url_slug: casual.url_slug,
@@ -43,23 +57,16 @@ const mocks = {
 	}),
 
 	Instance: () => ({
-		id: casual.integer(0, 200),
 		url_slug: casual.url_slug,
 		instance_name: casual.title,
 		status: oneOf(['UP', 'DOWN', 'UNKNOWN', 'CREATING', 'DELETING']),
-		is_clone: oneOf([true, false]),
 	}),
 
 	Environment: () => ({
 		env_name: oneOf(['Test', 'Production']),
 	}),
 
-	SoftwareProfile: () => ({
-		db_engine: oneOf(['MS SQL', 'Postgres', 'Oracle']),
-	}),
-
 	User: () => ({
-		id: casual.integer(0, 200),
 		first_name: casual.first_name,
 		last_name: casual.last_name,
 		email: casual.email,
@@ -72,7 +79,6 @@ const mocks = {
 	}),
 
 	AddUserResult: () => ({
-		productteam_relation_id: 123,
 		success: true,
 	}),
 
@@ -108,12 +114,13 @@ const mocks = {
 
 	OracleSettings: () => ({
 		oracle_nls_length_sematic: () => new MockList([2, 2]),
-		oracle_charsets: () => new MockList([2, 2]),
-		oracle_blocksize: () => new MockList([3, 3]),
+		oracle_charsets: [...new Array(casual.integer(2, 2))],
+		oracle_blocksize: [...new Array(casual.integer(3, 3))],
+		oracle_charset: 'AL32UTF8',
 	}),
 
 	DatabaseEngine: () => ({
-		display_name: oneOf(['postgres', 'oracle', 'sqlserver']),
+		display_name: oneOf(['Postgres', 'Oracle', 'MS SQL Server']),
 		engine: oneOf([
 			'postgres_database',
 			'oracle_database',
@@ -124,14 +131,15 @@ const mocks = {
 	Query: () => ({
 		// By default only two mocks are generated, here we use
 		// graphql-tools MockList object to vary between 1 and 7 posts
-		// 		ProductTeams: () => new MockList([5, 10]),
-		ProductTeams: () => new MockList([12, 20]),
-		Operations: () => new MockList([15, 25]),
-		Users: [...new Array(casual.integer(1, 20))],
-		Roles: () => new MockList([5, 15]),
-		Instances: () => new MockList([15, 25]),
-		DatabaseEngines: () => new MockList([3, 3]),
-		ComputeSizes: () => new MockList([4, 4]),
+		ProductTeams: [...new Array(casual.integer(12, 20))],
+		SoftwareProfiles: [...new Array(casual.integer(4, 10))],
+		Operations: [...new Array(casual.integer(15, 25))],
+		UsersInProductTeam: [...new Array(casual.integer(5, 15))],
+		Roles: [...new Array(casual.integer(5, 15))],
+		Instances: [...new Array(casual.integer(15, 25))],
+		DatabaseEngines: [...new Array(casual.integer(3, 3))],
+		ComputeSizes: [...new Array(casual.integer(4, 4))],
+		UserRoles: [...new Array(casual.integer(1, 1))],
 	}),
 }
 module.exports = {
