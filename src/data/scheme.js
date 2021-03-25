@@ -2,32 +2,52 @@ const typeDefs = `
 scalar DateTime
 
 	type ComputeSize {
-		size: Int!
+		size: String!
+	}
+
+	type Monitored {
+		monitored: Boolean!
+	}
+
+	type UserCapabilities {
+		can_add_user: Boolean!
+		can_edit_user: Boolean!
+		can_remove_user: Boolean!
+		can_clone_instance: Boolean!
+		can_create_instance: Boolean!
+		can_delete_instance: Boolean!
 	}
 
 	type DatabaseCapabilities {
-		database_name: Boolean!
-		database_password: Boolean!
-		postgres_settings: PostgresSettings
-		oracle_settings: OracleSettings
-		sqlserver_settings: SQLServerSettings
+		has_database_name: Boolean!
+		has_database_password: Boolean!
+		characterset: String!
+		monitored: [Monitored!]!
+		environment: [Environment!]!
+		softwareprofile: [SoftwareProfile!]!
+		compute_size: [ComputeSize!]!
+
+		is_cluster: [IsClustered]
+		nodes: [ClusterNodes]
+		ora_custom: [OracleCustom]
+		oracle_nls_length_sematic: [OracleNLSLengthSematic]
+		oracle_charsets: [OracleCharsets]
+		oracle_blocksize: [OracleBlocksize]
+		oracle_charset: String
+		ora_cdb: [OraCDB]
+		ora_java: [OraJava]
 	}
 
-	type OracleSettings {
-		oracle_nls_length_sematic: [OracleNLSLengthSematic!]!
-		oracle_charsets: [OracleCharsets!]!
-		oracle_blocksize: [OracleBlocksize!]!
-		oracle_charset: String!
-		ora_cdb: [OraCDB!]!
-		ora_java: [OraJava!]!
+	type OracleCustom {
+		ora_custom: Boolean!
 	}
 
-	type PostgresSettings {
-		hasValues: Boolean!
+	type IsClustered {
+		is_cluster: Boolean!
 	}
 
-	type SQLServerSettings {
-		hasValues: Boolean!
+	type ClusterNodes {
+		nodes: Int!
 	}
 
 	type OracleNLSLengthSematic {
@@ -172,6 +192,7 @@ scalar DateTime
 		username: String!
 	}
 
+
 	type UserInProductTeam {
 		user: User!
 		role_name: String!
@@ -180,6 +201,7 @@ scalar DateTime
 
 	type UserRoles {
 		product_id: Int!
+		productteam_url_slug: String!
 		role: String!
 	}
 
@@ -218,33 +240,33 @@ scalar DateTime
   }
 
 	type Mutation {
-		addUserToProductTeam(productteam_id: Int!, email: String!, role_id: Int!) :AddUserResult!
-		updateUser(productteam_id: Int!, user_id: Int!, role_id: Int!):UpdateUserResult!
-		removeUserFromProductTeam(productteam_id: Int!, user_id: Int!):RemoveUserResult!
+		addUserToProductTeam(productteam_url_slug: String!, email: String!, role_id: Int!) :AddUserResult!
+		updateUser(productteam_url_slug: String!, user_id: Int!, role_id: Int!):UpdateUserResult!
+		removeUserFromProductTeam(productteam_url_slug: String!, user_id: Int!):RemoveUserResult!
 
-		createInstance(productteam_id: Int!, db_engine: String!,	db_profile: Int!,	db_size: String!, db_env: Int!, database: String!, password: String!, monitored: Boolean!, backup_sla: Int!,	characterset: String!, ora_java: Boolean!, ora_custom: Boolean!,	ora_n_charset: String!,	ora_cdb_only: Boolean!,	ora_blocksize: Int!, ora_nls_length_sem: String!): CreateInstanceResult!
+		createInstance(productteam_url_slug: String!, db_engine: Int!,	db_profile: Int!,	db_size: String!, db_env: Int!, database: String!, password: String!, monitored: Boolean!, backup_sla: Int!,	characterset: String!, ora_java: Boolean!, ora_custom: Boolean!,	ora_n_charset: String!,	ora_cdb_only: Boolean!,	ora_blocksize: Int!, ora_nls_length_sem: String!): CreateInstanceResult!
 		cloneInstance(instance_id: Int!, pit: String!, db_env: Int!):CloneInstanceResult!
 		removeInstance(id: Int!): DeleteInstanceResult!
 	}
 
   # The schema allows query posts and author:
   type Query {
-		Instance(id: Int!): Instance!
-		Instances(productteam_id: Int!): [Instance!]!
-		Credentials(instance_id: Int!): Credentials!
-		Databases(instance_id: Int!): [Database!]!
-		Hosts(instance_id: Int!): [Host!]!
+		Instance(url_slug: String!): Instance!
+		Instances(productteam_url_slug: String!): [Instance!]!
+		Credentials(instance_url_slug: String!): Credentials!
+		Databases(instance_url_slug: String!): [Database!]!
+		Hosts(instance_url_slug: String!): [Host!]!
 
-		Operation(id: Int!): Operation!
-		Operations(productteam_id: Int): [Operation!]!
+		Operation(url_slug: String!): Operation!
+		Operations(productteam_url_slug: String): [Operation!]!
 
-		ProductTeam(id: Int!): ProductTeam!
+		ProductTeam(url_slug: String!): ProductTeam!
 		ProductTeams: [ProductTeam!]!
-		Quota(productteam_id: Int!): Quota
+		Quota(productteam_url_slug: String!): Quota
 
-		User(id: Int!, productteam_id: Int!): User!
-		UserInProductTeam(id: Int!, productteam_id: Int!): UserInProductTeam!
-		UsersInProductTeam(productteam_id: Int!): [UserInProductTeam!]!
+		User(id: Int!, productteam_url_slug: String!): User!
+		UserInProductTeam(id: Int!, productteam_url_slug: String!): UserInProductTeam!
+		UsersInProductTeam(productteam_url_slug: String!): [UserInProductTeam!]!
 		Roles: [Role!]!
 
 		Environments: [Environment!]!
@@ -257,6 +279,14 @@ scalar DateTime
 		UserRoles: [UserRoles!]!
 		OraJava: [OraJava!]!
 		OraCDB: [OraCDB!]!
+		OracleBlocksize: [OracleBlocksize!]!
+		OracleCharsets: [OracleCharsets!]!
+		OracleNLSLengthSematic: [OracleNLSLengthSematic!]!
+
+		IsClustered: [IsClustered!]!
+		ClusterNodes: [ClusterNodes]
+		UserCapabilities(user_id: Int!, productteam_url_slug: String!): UserCapabilities!
+		OracleCustom: [OracleCustom]
   }
 `
 module.exports = {

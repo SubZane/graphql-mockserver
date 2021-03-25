@@ -17,7 +17,6 @@ const schemawithmocks = addMocksToSchema({
 	schema,
 	mocks,
 	preserveResolvers: true,
-	resolvers: resolvers,
 })
 
 const app = express()

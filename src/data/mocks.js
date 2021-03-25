@@ -17,6 +17,11 @@ const mocks = {
 	String: () => 'Default Message',
 	DateTime: () => casual.date('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
 
+	DatabaseCapabilities: () => ({
+		has_database_name: true,
+		oracle_charset: 'AL32UTF8',
+	}),
+
 	SoftwareProfile: () => ({
 		name: casual.title,
 		description: casual.short_description,
@@ -26,7 +31,6 @@ const mocks = {
 	}),
 
 	Quota: () => ({
-		productteam_id: casual.integer(0, 200),
 		vcpu_entitled: casual.integer(0, 10),
 		memgb_entitled: casual.integer(8, 128),
 		diskgb_entitled: casual.integer(10, 200),
@@ -37,33 +41,33 @@ const mocks = {
 
 	UserRoles: () => ({
 		product_id: 3,
+		productteam_url_slug: 'demo-admin-team',
 		role: 'Product admin',
 	}),
 
 	ProductTeam: () => ({
 		id: casual.integer(0, 5),
+		url_slug: oneOf([
+			'demo-admin-team',
+			faker.helpers.slugify(casual.title).toLowerCase(),
+		]),
 		product_name: casual.title,
 		product_description: casual._short_description,
-		url_slug: casual.url_slug,
 		cost_center: casual.title,
 	}),
 
 	Operation: () => ({
 		uuid: casual.uuid,
-		url_slug: casual.url_slug,
+		url_slug: faker.helpers.slugify(casual.title).toLowerCase(),
 		entity_name: casual.title,
 		entity_type: casual.word,
 		status: oneOf(['P', 'N', 'R', 'C', 'E', 'D']),
 	}),
 
 	Instance: () => ({
-		url_slug: casual.url_slug,
+		url_slug: faker.helpers.slugify(casual.title).toLowerCase(),
 		instance_name: casual.title,
 		status: oneOf(['UP', 'DOWN', 'UNKNOWN', 'CREATING', 'DELETING']),
-	}),
-
-	Environment: () => ({
-		env_name: oneOf(['Test', 'Production']),
 	}),
 
 	User: () => ({
@@ -96,36 +100,8 @@ const mocks = {
 		success: true,
 	}),
 
-	ComputeSizes: () => ({
-		size: oneOf(['XSmall', 'Small', 'Medium', 'Large']),
-	}),
-
-	OracleBlocksize: () => ({
-		blocksize: oneOf(['8', '16', '32']),
-	}),
-
-	OracleCharsets: () => ({
-		charset: oneOf(['UTF8', 'AL16UTF16']),
-	}),
-
-	OracleNLSLengthSematic: () => ({
-		nls_length_sematic: oneOf(['CHAR', 'BYTE']),
-	}),
-
 	OracleSettings: () => ({
-		oracle_nls_length_sematic: () => new MockList([2, 2]),
-		oracle_charsets: [...new Array(casual.integer(2, 2))],
-		oracle_blocksize: [...new Array(casual.integer(3, 3))],
 		oracle_charset: 'AL32UTF8',
-	}),
-
-	DatabaseEngine: () => ({
-		display_name: oneOf(['Postgres', 'Oracle', 'MS SQL Server']),
-		engine: oneOf([
-			'postgres_database',
-			'oracle_database',
-			'sqlserver_database',
-		]),
 	}),
 
 	Query: () => ({
@@ -137,8 +113,6 @@ const mocks = {
 		UsersInProductTeam: [...new Array(casual.integer(5, 15))],
 		Roles: [...new Array(casual.integer(5, 15))],
 		Instances: [...new Array(casual.integer(15, 25))],
-		DatabaseEngines: [...new Array(casual.integer(3, 3))],
-		ComputeSizes: [...new Array(casual.integer(4, 4))],
 		UserRoles: [...new Array(casual.integer(1, 1))],
 	}),
 }
