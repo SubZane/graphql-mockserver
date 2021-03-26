@@ -112,7 +112,8 @@ scalar DateTime
 		instance: Instance!
 		id: String!
 		hostname: String!
-		ipv4: String!
+		publicip: String!
+		virtualip: String!
 		role: String!
 		vcpu: String!
 		memgb: String!
@@ -242,11 +243,11 @@ scalar DateTime
 	type Mutation {
 		addUserToProductTeam(productteam_url_slug: String!, email: String!, role_id: Int!) :AddUserResult!
 		updateUser(productteam_url_slug: String!, user_id: Int!, role_id: Int!):UpdateUserResult!
-		removeUserFromProductTeam(productteam_url_slug: String!, user_id: Int!):RemoveUserResult!
+		removeUserFromProductTeam(productteam_url_slug: String!, user_id: Int!, comment: String):RemoveUserResult!
 
 		createInstance(productteam_url_slug: String!, db_engine: Int!,	db_profile: Int!,	db_size: String!, db_env: Int!, database: String!, password: String!, monitored: Boolean!, backup_sla: Int!,	characterset: String!, ora_java: Boolean!, ora_custom: Boolean!,	ora_n_charset: String!,	ora_cdb_only: Boolean!,	ora_blocksize: Int!, ora_nls_length_sem: String!): CreateInstanceResult!
-		cloneInstance(instance_id: Int!, pit: String!, db_env: Int!):CloneInstanceResult!
-		removeInstance(id: Int!): DeleteInstanceResult!
+		cloneInstance(instance_url_slug: String!, pit: String!, db_env: Int!):CloneInstanceResult!
+		removeInstance(instance_url_slug: String!, comment: String): DeleteInstanceResult!
 	}
 
   # The schema allows query posts and author:
