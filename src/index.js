@@ -42,6 +42,12 @@ app.use(
 	graphqlHTTP({
 		schema: schemawithmocks,
 		graphiql: true,
+		customFormatErrorFn: (error) => ({
+			message: error.message,
+			locations: error.locations,
+			stack: error.stack ? error.stack.split('\n') : [],
+			path: error.path,
+		}),
 	})
 )
 

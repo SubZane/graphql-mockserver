@@ -38,6 +38,11 @@ scalar DateTime
 		ora_java: [OraJava]
 	}
 
+	type ScanDetails {
+		scanname: String
+		scanip: String
+	}
+
 	type OracleCustom {
 		ora_custom: Boolean!
 	}
@@ -225,17 +230,7 @@ scalar DateTime
     success: Boolean!
   }
 
-  type CreateInstanceResult {
-    success: Boolean!
-		operation_id: Int!
-  }
-
-  type CloneInstanceResult {
-    success: Boolean!
-		operation_id: Int!
-  }
-
-	type DeleteInstanceResult {
+  type InstanceOperationResult {
     success: Boolean!
 		operation_id: Int!
   }
@@ -245,9 +240,13 @@ scalar DateTime
 		updateUser(productteam_url_slug: String!, user_id: Int!, role_id: Int!):UpdateUserResult!
 		removeUserFromProductTeam(productteam_url_slug: String!, user_id: Int!, comment: String):RemoveUserResult!
 
-		createInstance(productteam_url_slug: String!, db_engine: Int!,	db_profile: Int!,	db_size: String!, db_env: Int!, database: String!, password: String!, monitored: Boolean!, backup_sla: Int!,	characterset: String!, ora_java: Boolean!, ora_custom: Boolean!,	ora_n_charset: String!,	ora_cdb_only: Boolean!,	ora_blocksize: Int!, ora_nls_length_sem: String!): CreateInstanceResult!
-		cloneInstance(instance_url_slug: String!, pit: String!, db_env: Int!):CloneInstanceResult!
-		removeInstance(instance_url_slug: String!, comment: String): DeleteInstanceResult!
+		createInstance(productteam_url_slug: String!, db_engine: Int!,	db_profile: Int!,	db_size: String!, db_env: Int!, database: String!, password: String!, monitored: Boolean!, backup_sla: Int!,	characterset: String!, ora_java: Boolean!, ora_custom: Boolean!,	ora_n_charset: String!,	ora_cdb_only: Boolean!,	ora_blocksize: Int!, ora_nls_length_sem: String!, is_cluster: Boolean!, nodes: Int!): InstanceOperationResult!
+		cloneInstance(instance_url_slug: String!, pit: String!, db_env: Int!):InstanceOperationResult!
+		removeInstance(instance_url_slug: String!, comment: String): InstanceOperationResult!
+
+		startInstance(instance_url_slug: String!): InstanceOperationResult!
+		stopInstance(instance_url_slug: String!): InstanceOperationResult!
+		restartInstance(instance_url_slug: String!): InstanceOperationResult!
 	}
 
   # The schema allows query posts and author:
@@ -257,6 +256,7 @@ scalar DateTime
 		Credentials(instance_url_slug: String!): Credentials!
 		Databases(instance_url_slug: String!): [Database!]!
 		Hosts(instance_url_slug: String!): [Host!]!
+		ScanDetails(instance_url_slug: String!): ScanDetails
 
 		Operation(url_slug: String!): Operation!
 		Operations(productteam_url_slug: String): [Operation!]!

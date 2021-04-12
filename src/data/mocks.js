@@ -82,16 +82,15 @@ const mocks = {
 		name: oneOf(['Developer', 'Manager', 'Admin', 'Member', 'God']),
 	}),
 
+	Environment: () => ({
+		env_name: oneOf(['Test', 'Production']),
+	}),
+
 	AddUserResult: () => ({
 		success: true,
 	}),
 
-	CreateInstanceResult: () => ({
-		operation_id: 123,
-		success: true,
-	}),
-
-	CloneInstanceResult: () => ({
+	InstanceOperationResult: () => ({
 		operation_id: 123,
 		success: true,
 	}),
